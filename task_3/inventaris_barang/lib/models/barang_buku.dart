@@ -1,22 +1,22 @@
 import 'barang.dart';
 import 'kategori.dart';
 
-class BarangAtk extends Barang {
-  final String satuan;
+class BarangBuku extends Barang {
+  final String penulis;
 
-  BarangAtk({
+  BarangBuku({
     required super.kode,
     required super.nama,
     required super.harga,
     required super.stok,
     super.catatan,
     super.tanggalMasuk,
-    required this.satuan,
+    required this.penulis,
   });
 
   @override
-  Kategori get kategori => Kategori.atk;
+  Kategori get kategori => Kategori.buku;
 
   @override
-  String get detail => 'Satuan: $satuan';
+  String get detail => 'Penulis: $penulis';
 }

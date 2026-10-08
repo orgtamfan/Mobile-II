@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../models/barang.dart';
+import '../models/diskon.dart';
 import '../utils/format.dart';
 
 class DetailBarangPage extends StatefulWidget {
@@ -35,28 +36,46 @@ class _DetailBarangPageState extends State<DetailBarangPage> {
     );
   }
 
+  String _formatTanggal(DateTime? dt) {
+    if (dt == null) return 'Belum dicatat'; // Tugas 4: null aware
+    return '${dt.day}/${dt.month}/${dt.year}';
+  }
+
   @override
   Widget build(BuildContext context) {
+    final b = _b;
+    final adaDiskon = b is Diskon && (b as Diskon).persenDiskon > 0;
+
     return Scaffold(
-      appBar: AppBar(title: Text(_b.nama)),
+      appBar: AppBar(title: Text(b.nama)),
       body: ListView(
         padding: const EdgeInsets.all(16),
         children: [
           Card(
             child: Column(
               children: [
-                _baris('Kode', _b.kode),
+                _baris('Kode', b.kode),
                 const Divider(height: 1),
-                _baris('Kategori', _b.kategori.label),
+                _baris('Kategori', b.kategori.label),
                 const Divider(height: 1),
-                _baris('Harga', formatRupiah(_b.harga)),
+                _baris('Harga', b.harga.rupiah),
+                if (adaDiskon) ...[
+                  const Divider(height: 1),
+                  _baris(
+                    'Harga Diskon (${(b as Diskon).persenDiskon.toInt()}%)',
+                    (b as Diskon).hargaSetelahDiskon(b.harga).rupiah,
+                  ),
+                ],
                 const Divider(height: 1),
-                _baris('Informasi Khusus', _b.detail),
+                _baris('Status Stok', b.statusStok),
                 const Divider(height: 1),
-                // ?? : tampilkan teks cadangan jika catatan bernilai null
-                _baris('Catatan', _b.catatan ?? 'Tidak ada catatan'),
+                _baris('Informasi Khusus', b.detail),
                 const Divider(height: 1),
-                _baris('Nilai Stok', formatRupiah(_b.nilaiStok)),
+                _baris('Tanggal Masuk', _formatTanggal(b.tanggalMasuk)),
+                const Divider(height: 1),
+                _baris('Catatan', b.catatan ?? 'Tidak ada catatan'),
+                const Divider(height: 1),
+                _baris('Nilai Stok', b.nilaiStok.rupiah),
               ],
             ),
           ),
@@ -74,7 +93,7 @@ class _DetailBarangPageState extends State<DetailBarangPage> {
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 24),
                 child: Text(
-                  '${_b.stok}',
+                  '${b.stok}',
                   style: const TextStyle(
                     fontSize: 32,
                     fontWeight: FontWeight.bold,

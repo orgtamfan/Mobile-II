@@ -427,7 +427,7 @@ class _RegistrasiPageState extends State<RegistrasiPage> {
             ),
             const SizedBox(height: 16),
             DropdownButtonFormField<String>(
-              value: _prodi,
+              initialValue: _prodi,
               decoration: _dekor('Program Studi', Icons.school),
               items: _daftarProdi
                   .map((p) => DropdownMenuItem(value: p, child: Text(p)))

@@ -9,12 +9,12 @@ class BarangCard extends StatelessWidget {
 
   const BarangCard({super.key, required this.barang, required this.onTap});
 
-  // switch expression (Dart 3): satu nilai untuk tiap kategori
   IconData get _ikon => switch (barang.kategori) {
-    Kategori.elektronik => Icons.devices,
-    Kategori.atk => Icons.edit,
-    Kategori.perabot => Icons.chair,
-  };
+        Kategori.elektronik => Icons.devices,
+        Kategori.atk => Icons.edit,
+        Kategori.perabot => Icons.chair,
+        Kategori.buku => Icons.menu_book, // Ikon kategori buku
+      };
 
   @override
   Widget build(BuildContext context) {
@@ -24,16 +24,23 @@ class BarangCard extends StatelessWidget {
       child: ListTile(
         leading: CircleAvatar(child: Icon(_ikon)),
         title: Text(barang.nama),
-        subtitle: Text('${barang.kode} · ${formatRupiah(barang.harga)}'),
+        subtitle: Text('${barang.kode} · ${barang.harga.rupiah}'),
         trailing: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.end,
           children: [
-            Text('Stok', style: Theme.of(context).textTheme.labelSmall),
+            Text(
+              barang.statusStok, // Menampilkan status stok
+              style: TextStyle(
+                fontSize: 12,
+                fontWeight: FontWeight.bold,
+                color: stokMenipis ? Colors.red : Colors.green,
+              ),
+            ),
             Text(
               '${barang.stok}',
               style: TextStyle(
-                fontSize: 18,
+                fontSize: 16,
                 fontWeight: FontWeight.bold,
                 color: stokMenipis ? Colors.red : null,
               ),

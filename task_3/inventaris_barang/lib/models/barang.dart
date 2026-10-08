@@ -1,13 +1,12 @@
 import 'kategori.dart';
 
-/// Kelas abstrak: tidak bisa dibuat objeknya langsung (Barang(...) = error).
-/// Hanya subclass (BarangElektronik, BarangAtk, BarangPerabot) yang bisa.
 abstract class Barang {
   final String kode;
   final String nama;
   final double harga;
-  final String? catatan; // opsional: boleh null
-  int _stok; // private: hanya bisa diubah lewat method di bawah
+  final String? catatan;
+  final DateTime? tanggalMasuk; // Tugas 4
+  int _stok;
 
   Barang({
     required this.kode,
@@ -15,13 +14,19 @@ abstract class Barang {
     required this.harga,
     required int stok,
     this.catatan,
+    this.tanggalMasuk,
   }) : _stok = stok;
 
-  // Getter: membaca stok tanpa membuka akses untuk mengubahnya langsung
   int get stok => _stok;
   double get nilaiStok => harga * _stok;
 
-  // Anggota abstrak: wajib diisi oleh setiap subclass
+  // Tugas 1: Getter status stok
+  String get statusStok {
+    if (_stok == 0) return 'Habis';
+    if (_stok <= 5) return 'Menipis';
+    return 'Aman';
+  }
+
   Kategori get kategori;
   String get detail;
 
@@ -29,7 +34,6 @@ abstract class Barang {
     if (jumlah > 0) _stok += jumlah;
   }
 
-  /// Mengembalikan false jika jumlah tidak valid atau stok tidak cukup.
   bool kurangiStok(int jumlah) {
     if (jumlah <= 0 || jumlah > _stok) return false;
     _stok -= jumlah;

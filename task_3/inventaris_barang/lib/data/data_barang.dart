@@ -1,9 +1,9 @@
 import '../models/barang.dart';
 import '../models/barang_atk.dart';
+import '../models/barang_buku.dart';
 import '../models/barang_elektronik.dart';
 import '../models/barang_perabot.dart';
 
-/// Data contoh. Tipe list adalah Barang, isinya bermacam-macam subclass.
 final List<Barang> dataBarang = [
   BarangElektronik(
     kode: 'ELK-001',
@@ -11,6 +11,8 @@ final List<Barang> dataBarang = [
     harga: 8500000,
     stok: 5,
     garansiBulan: 24,
+    persenDiskon: 10, // Diskon 10%
+    tanggalMasuk: DateTime(2025, 1, 15),
   ),
   BarangElektronik(
     kode: 'ELK-002',
@@ -19,6 +21,7 @@ final List<Barang> dataBarang = [
     stok: 2,
     garansiBulan: 12,
     catatan: 'Disimpan di Lab 2',
+    tanggalMasuk: DateTime(2025, 2, 10),
   ),
   BarangAtk(
     kode: 'ATK-001',
@@ -26,6 +29,7 @@ final List<Barang> dataBarang = [
     harga: 52000,
     stok: 40,
     satuan: 'rim',
+    tanggalMasuk: DateTime(2025, 3, 1),
   ),
   BarangAtk(
     kode: 'ATK-002',
@@ -48,5 +52,21 @@ final List<Barang> dataBarang = [
     stok: 8,
     bahan: 'Kayu jati',
     catatan: 'Ruang dosen lantai 2',
+  ),
+  // Tugas 2: Data sampel buku
+  BarangBuku(
+    kode: 'BKU-001',
+    nama: 'Pemrograman Flutter & Dart',
+    harga: 125000,
+    stok: 15,
+    penulis: 'Erico Darmawan',
+    tanggalMasuk: DateTime(2025, 2, 20),
+  ),
+  BarangBuku(
+    kode: 'BKU-002',
+    nama: 'Dasar-Dasar OOP',
+    harga: 95000,
+    stok: 0,
+    penulis: 'Budi Raharjo',
   ),
 ];

@@ -10,6 +10,7 @@ class BarangPerabot extends Barang {
     required super.harga,
     required super.stok,
     super.catatan,
+    super.tanggalMasuk,
     required this.bahan,
   });
 

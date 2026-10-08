@@ -1,11 +1,15 @@
-/// Mengubah angka menjadi teks rupiah, mis. 8500000 -> Rp 8.500.000
-String formatRupiah(num nilai) {
-  final s = nilai.round().toString();
-  final hasil = StringBuffer();
-  for (var i = 0; i < s.length; i++) {
-    // sisipkan titik setiap tiga digit dari belakang
-    if (i > 0 && (s.length - i) % 3 == 0) hasil.write('.');
-    hasil.write(s[i]);
+/// Extension pada num untuk mengubah angka ke format rupiah (misal: 8500000.rupiah)
+extension RupiahX on num {
+  String get rupiah {
+    final s = round().toString();
+    final hasil = StringBuffer();
+    for (var i = 0; i < s.length; i++) {
+      if (i > 0 && (s.length - i) % 3 == 0) hasil.write('.');
+      hasil.write(s[i]);
+    }
+    return 'Rp $hasil';
   }
-  return 'Rp $hasil';
 }
+
+// Fungsi bantu untuk menjaga kompatibilitas kode sebelumnya
+String formatRupiah(num nilai) => nilai.rupiah;

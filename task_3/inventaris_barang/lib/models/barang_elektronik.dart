@@ -1,8 +1,11 @@
 import 'barang.dart';
+import 'diskon.dart';
 import 'kategori.dart';
 
-class BarangElektronik extends Barang {
+class BarangElektronik extends Barang with Diskon {
   final int garansiBulan;
+  @override
+  final double persenDiskon;
 
   BarangElektronik({
     required super.kode,
@@ -10,7 +13,9 @@ class BarangElektronik extends Barang {
     required super.harga,
     required super.stok,
     super.catatan,
+    super.tanggalMasuk,
     required this.garansiBulan,
+    this.persenDiskon = 0.0,
   });
 
   @override
