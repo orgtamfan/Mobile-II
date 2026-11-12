@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "548593578568",
+    "project_id": "olan-ajah",
+    "storage_bucket": "olan-ajah.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:548593578568:android:808e834ca4bf6816e61e7d",
+        "android_client_info": {
+          "package_name": "id.ac.teknokrat.catatan_tugas"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA4Bm21R1M4yFdc3nRwKxsC3QaIP2bo2dQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
