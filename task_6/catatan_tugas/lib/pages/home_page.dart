@@ -1,8 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+
 import '../models/tugas.dart';
 import '../services/auth_service.dart';
+import '../services/foto_service.dart';
+import '../services/notifikasi_service.dart';
+import '../services/profil_service.dart';
 import '../services/tugas_service.dart';
+import '../widgets/foto_base64.dart';
 import 'form_page.dart';
+import 'foto_page.dart';
+import 'pengaturan_page.dart';
 
 class HomePage extends StatelessWidget {
   HomePage({super.key});
@@ -29,8 +37,44 @@ class HomePage extends StatelessWidget {
       ),
     );
     if (ya == true) {
+      await NotifikasiService.hapusToken();
       await _auth.keluar();
     }
+  }
+
+  Future<void> _tampilkanToken(BuildContext context) async {
+    final token = await NotifikasiService.ambilToken();
+    if (!context.mounted) return;
+    showDialog<void>(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        title: const Text('Token FCM'),
+        content: SelectableText(
+          token ??
+              'Token belum tersedia. Periksa izin notifikasi dan koneksi internet.',
+        ),
+        actions: [
+          TextButton(
+            onPressed: token == null
+                ? null
+                : () async {
+                    await Clipboard.setData(ClipboardData(text: token));
+                    if (ctx.mounted) Navigator.pop(ctx);
+                    if (context.mounted) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(content: Text('Token disalin')),
+                      );
+                    }
+                  },
+            child: const Text('Salin'),
+          ),
+          TextButton(
+            onPressed: () => Navigator.pop(ctx),
+            child: const Text('Tutup'),
+          ),
+        ],
+      ),
+    );
   }
 
   Future<void> _konfirmasiHapus(BuildContext context, Tugas t) async {
@@ -54,9 +98,9 @@ class HomePage extends StatelessWidget {
     if (ya == true) {
       await _service.hapus(t.id!);
       if (context.mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Tugas dihapus')),
-        );
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(const SnackBar(content: Text('Tugas dihapus')));
       }
     }
   }
@@ -72,6 +116,19 @@ class HomePage extends StatelessWidget {
         title: const Text('Catatan Tugas'),
         actions: [
           IconButton(
+            icon: const Icon(Icons.settings_outlined),
+            tooltip: 'Pengaturan',
+            onPressed: () => Navigator.push(
+              context,
+              MaterialPageRoute<void>(builder: (_) => const PengaturanPage()),
+            ),
+          ),
+          IconButton(
+            icon: const Icon(Icons.notifications_active_outlined),
+            tooltip: 'Token FCM',
+            onPressed: () => _tampilkanToken(context),
+          ),
+          IconButton(
             icon: const Icon(Icons.logout),
             tooltip: 'Keluar',
             onPressed: () => _konfirmasiKeluar(context),
@@ -82,12 +139,32 @@ class HomePage extends StatelessWidget {
         children: [
           Padding(
             padding: const EdgeInsets.fromLTRB(16, 12, 16, 0),
-            child: Align(
-              alignment: Alignment.centerLeft,
-              child: Text(
-                'Halo, $sapaan',
-                style: Theme.of(context).textTheme.titleMedium,
-              ),
+            child: Row(
+              children: [
+                StreamBuilder(
+                  stream: ProfilService().perubahanProfil(),
+                  builder: (context, snapshot) {
+                    final kode =
+                        snapshot.data?.data()?['fotoProfil'] as String?;
+                    final bytes = FotoService.bacaKode(kode);
+                    return CircleAvatar(
+                      backgroundImage: bytes == null
+                          ? null
+                          : MemoryImage(bytes),
+                      child: bytes == null
+                          ? const Icon(Icons.person_outline)
+                          : null,
+                    );
+                  },
+                ),
+                const SizedBox(width: 12),
+                Expanded(
+                  child: Text(
+                    'Halo, $sapaan',
+                    style: Theme.of(context).textTheme.titleMedium,
+                  ),
+                ),
+              ],
             ),
           ),
           Expanded(
@@ -122,6 +199,26 @@ class HomePage extends StatelessWidget {
                       clipBehavior: Clip.antiAlias,
                       child: Column(
                         children: [
+                          if (t.lampiranBase64?.isNotEmpty ?? false)
+                            GestureDetector(
+                              onTap: () => Navigator.push(
+                                context,
+                                MaterialPageRoute<void>(
+                                  builder: (_) => FotoPage(
+                                    kode: t.lampiranBase64!,
+                                    heroTag: 'foto-${t.id}',
+                                  ),
+                                ),
+                              ),
+                              child: Hero(
+                                tag: 'foto-${t.id}',
+                                child: SizedBox(
+                                  height: 180,
+                                  width: double.infinity,
+                                  child: FotoBase64(kode: t.lampiranBase64!),
+                                ),
+                              ),
+                            ),
                           ListTile(
                             leading: Checkbox(
                               value: t.selesai,

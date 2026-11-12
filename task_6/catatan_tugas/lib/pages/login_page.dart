@@ -6,10 +6,10 @@ class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
 
   @override
-  State<LoginPage> createState() => LoginPageState();
+  State<LoginPage> createState() => _LoginPageState();
 }
 
-class LoginPageState extends State<LoginPage> {
+class _LoginPageState extends State<LoginPage> {
   final _formKey = GlobalKey<FormState>();
   final _auth = AuthService();
   final _nama = TextEditingController();
@@ -66,12 +66,17 @@ class LoginPageState extends State<LoginPage> {
                 mainAxisSize: MainAxisSize.min,
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-                  Icon(Icons.assignment_outlined,
-                      size: 64, color: Theme.of(context).colorScheme.primary),
+                  Icon(
+                    Icons.assignment_outlined,
+                    size: 64,
+                    color: Theme.of(context).colorScheme.primary,
+                  ),
                   const SizedBox(height: 8),
-                  Text('Catatan Tugas',
-                      textAlign: TextAlign.center,
-                      style: Theme.of(context).textTheme.headlineSmall),
+                  Text(
+                    'Catatan Tugas',
+                    textAlign: TextAlign.center,
+                    style: Theme.of(context).textTheme.headlineSmall,
+                  ),
                   const SizedBox(height: 24),
                   if (_modeDaftar) ...[
                     TextFormField(
@@ -108,11 +113,10 @@ class LoginPageState extends State<LoginPage> {
                       labelText: 'Kata sandi',
                       border: const OutlineInputBorder(),
                       suffixIcon: IconButton(
-                        icon: Icon(_sembunyi
-                            ? Icons.visibility_off
-                            : Icons.visibility),
-                        onPressed: () =>
-                            setState(() => _sembunyi = !_sembunyi),
+                        icon: Icon(
+                          _sembunyi ? Icons.visibility_off : Icons.visibility,
+                        ),
+                        onPressed: () => setState(() => _sembunyi = !_sembunyi),
                       ),
                     ),
                     validator: (v) => (v == null || v.length < 6)
@@ -134,9 +138,11 @@ class LoginPageState extends State<LoginPage> {
                     onPressed: _loading
                         ? null
                         : () => setState(() => _modeDaftar = !_modeDaftar),
-                    child: Text(_modeDaftar
-                        ? 'Sudah punya akun? Masuk'
-                        : 'Belum punya akun? Daftar'),
+                    child: Text(
+                      _modeDaftar
+                          ? 'Sudah punya akun? Masuk'
+                          : 'Belum punya akun? Daftar',
+                    ),
                   ),
                 ],
               ),
