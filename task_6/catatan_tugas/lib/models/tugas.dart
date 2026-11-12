@@ -23,13 +23,13 @@ class Tugas {
     this.lampiranBase64,
   });
 
-  factory Tugas.fromDoc(DocumentSnapshot> doc) {
-    final data = doc.data() ?? {};
+  factory Tugas.fromDoc(DocumentSnapshot<Map<String, dynamic>> doc) {
+    final data = doc.data() ?? <String, dynamic>{};
     return Tugas(
       id: doc.id,
       uid: data['uid'],
       judul: data['judul'] ?? '',
-      mataKuliah: data['matakuliah'] ?? '',
+      mataKuliah: data['mataKuliah'] ?? data['matakuliah'] ?? '',
       deskripsi: data['deskripsi'] ?? '',
       selesai: data['selesai'] ?? false,
       dibuat: (data['dibuat'] as Timestamp?)?.toDate(),
@@ -38,12 +38,12 @@ class Tugas {
   }
 
   Map<String, dynamic> toMap() => {
-        'judul': judul,
-        'matakuliah': mataKuliah,
-        'deskripsi': deskripsi,
-        'selesai': selesai,
-        if (lampiranBase64 != null) 'lampiranBase64': lampiranBase64,
-      };
+    'judul': judul,
+    'mataKuliah': mataKuliah,
+    'deskripsi': deskripsi,
+    'selesai': selesai,
+    if (lampiranBase64 != null) 'lampiranBase64': lampiranBase64,
+  };
 
   Uint8List? get fotoBytes {
     final k = lampiranBase64;
