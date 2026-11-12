@@ -1,1 +1,25 @@
-{"flutter":{"platforms":{"android":{"default":{"projectId":"olan-ajah","appId":"1:548593578568:android:808e834ca4bf6816e61e7d","fileOutput":"android/app/google-services.json"}},"dart":{"lib/firebase_options.dart":{"projectId":"olan-ajah","configurations":{"android":"1:548593578568:android:808e834ca4bf6816e61e7d","web":"1:548593578568:web:821ebaa57a0dd9a2e61e7d"}}}}}}
+{
+  "firestore": {
+    "rules": "firestore.rules"
+  },
+  "flutter": {
+    "platforms": {
+      "android": {
+        "default": {
+          "projectId": "olan-ajah",
+          "appId": "1:548593578568:android:808e834ca4bf6816e61e7d",
+          "fileOutput": "android/app/google-services.json"
+        }
+      },
+      "dart": {
+        "lib/firebase_options.dart": {
+          "projectId": "olan-ajah",
+          "configurations": {
+            "android": "1:548593578568:android:808e834ca4bf6816e61e7d",
+            "web": "1:548593578568:web:821ebaa57a0dd9a2e61e7d"
+          }
+        }
+      }
+    }
+  }
+}
