@@ -3,8 +3,9 @@ import 'package:firebase_auth/firebase_auth.dart';
 import '../models/tugas.dart';
 
 class TugasService {
-  final CollectionReference> _ref =
-      FirebaseFirestore.instance.collection('tugas');
+  final CollectionReference<Map<String, dynamic>> _ref = FirebaseFirestore
+      .instance
+      .collection('tugas');
 
   String get _uid => FirebaseAuth.instance.currentUser!.uid;
 
@@ -26,7 +27,9 @@ class TugasService {
 
   Future<Tugas?> ambil(String id) async {
     final doc = await _ref.doc(id).get();
-    return doc.exists ? Tugas.fromDoc(doc) : null;
+    if (!doc.exists) return null;
+    final tugas = Tugas.fromDoc(doc);
+    return tugas.uid == _uid ? tugas : null;
   }
 
   Future<void> ubah(Tugas t, {bool hapusLampiran = false}) {
