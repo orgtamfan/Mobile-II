@@ -1,0 +1,21 @@
+<!--
+  Tambahkan baris-baris berikut ke dalam android/app/src/main/AndroidManifest.xml
+  project Flutter Anda (file ini HANYA referensi, bukan file yang otomatis dipakai).
+-->
+
+<!-- Taruh di dalam tag <manifest>, SEBELUM tag <application> -->
+<uses-permission android:name="android.permission.INTERNET" />
+<uses-permission android:name="android.permission.CAMERA" />
+<uses-permission android:name="android.permission.READ_MEDIA_IMAGES" />
+<uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+
+<!--
+  Taruh di dalam tag <application>, agar ikon & warna notifikasi FCM sesuai tema.
+  (Opsional, tapi disarankan agar notifikasi tampil rapi di system tray.)
+-->
+<meta-data
+    android:name="com.google.firebase.messaging.default_notification_channel_id"
+    android:value="autolog_channel" />
+<meta-data
+    android:name="com.google.firebase.messaging.default_notification_icon"
+    android:resource="@mipmap/ic_launcher" />
