@@ -113,7 +113,7 @@ class _FormTugasPageState extends State<FormTugasPage> {
               ),
               const SizedBox(height: 16),
               DropdownButtonFormField<Prioritas>(
-                value: _prioritas,
+                initialValue: _prioritas,
                 decoration: const InputDecoration(
                   labelText: 'Prioritas',
                   border: OutlineInputBorder(),
