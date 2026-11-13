@@ -13,8 +13,10 @@ Future<void> main() async {
     FirebaseMessaging.onBackgroundMessage(firebaseBackgroundHandler);
   }
   runApp(const MyApp());
-  WidgetsBinding.instance.addPostFrameCallback((_) {
-    NotifikasiService.mulai();
+  WidgetsBinding.instance.addPostFrameCallback((_) async {
+    await NotifikasiService.mulai();
+    final token = await NotifikasiService.ambilToken();
+    debugPrint('FCM token: $token');
   });
 }
 
